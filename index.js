@@ -46,8 +46,6 @@ function WifiRoomSensor(log, config) {
 
 WifiRoomSensor.prototype = {
 	discover: function () {
-		this.updateRoomSensorState.bind(this);
-		
 		setInterval(this.updateRoomSensorState.bind(this), this.interval);
 	},
 	getRoomSensorState: function (callback) {
