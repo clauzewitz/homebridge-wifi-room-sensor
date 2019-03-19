@@ -12,22 +12,29 @@ This is WiFi Room Sensor plugin for [Homebridge](https://github.com/nfarina/home
 
 ### Installation
 
-1. Install required packages.
+1. Install required library.
+
+   ```
+   apt-get install nmap
+   ```
+
+2. Install required packages.
 
    ```
    npm install -g homebridge-wifi-room-sensor
    ```
 
-2. Check the MAC address of WiFi Room Sensor.
+3. Check the MAC address and IP address of WiFi Room Sensor.
 
-3. Add these values to `config.json`.
+4. Add these values to `config.json`.
 
     ```
       "accessories": [
         {
           "accessory": "WiFiRoomSensor",
-			    "name": "WiFi Room Sensor",
-			    "mac": "TOKEN_FROM_STEP_2"
+          "name": "WiFi Room Sensor",
+          "ip": "TOKEN_FROM_STEP_3"
+          "mac": "TOKEN_FROM_STEP_3"
         }
       ]
     ```
