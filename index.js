@@ -1,10 +1,9 @@
-const nmap = require('node-nmap');
+const exec = require('child_process').exec;
 let Service, Characteristic;
 
 module.exports = function (homebridge) {
 	Service = homebridge.hap.Service;
 	Characteristic = homebridge.hap.Characteristic;
-	nmap.nmapLocation = "nmap";
 
 	homebridge.registerAccessory('homebridge-wifi-room-sensor', 'WiFiRoomSensor', WifiRoomSensor);
 }
@@ -13,7 +12,12 @@ function WifiRoomSensor(log, config) {
 	this.services = [];
 	this.log = log;
 	this.name = config.name || 'WiFi Room Sensor';
+	this.ip = config.ip;
 	this.mac = config.mac;
+
+	if (!this.ip) {
+		throw new Error('Your must provide IP address of the room sensor.');
+	}
 
 	if (!this.mac) {
 		throw new Error('Your must provide MAC address of the room sensor.');
@@ -38,25 +42,15 @@ function WifiRoomSensor(log, config) {
 
 WifiRoomSensor.prototype = {
 	getRoomSensorState: function (callback) {
-		let quickScan = new nmap.QuickScan('192.168.0.0/24');
-		var state = false;
-
-		quickScan.on('complete', function (result) {
-			if (result && result.length > 0) {
-				result.some(function (value) {
-					state = (value.mac == this.mac);
-					return state;
-				});
+		let that = this;
+		
+		exec('nmap -sP -n 192.168.0.0/24', function (error, stdout, stderr) {
+			if (error !== undefined && error !== null) {
+				callback(error);
+			} else {
+				callback(null, stdout.includes(that.ip));
 			}
-
-			callback(null, state);
 		});
-		
-		quickScan.on('error', function (error) {
-			callback(new Error(error));
-		});
-		
-		quickScan.startScan();
 	},
 
 	identify: function (callback) {
