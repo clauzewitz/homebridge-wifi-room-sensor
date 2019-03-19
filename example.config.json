@@ -10,7 +10,8 @@
 		{
 			"accessory": "WiFiRoomSensor",
 			"name": "WiFi Room Sensor",
-			"mac": "6f7a65786550386b755a6b526666744d"
+			"ip": "192.168.0.2",
+			"mac": "00-00-00-00-00-00"
 		}
 	]
 }
