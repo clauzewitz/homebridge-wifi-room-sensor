@@ -40,10 +40,14 @@ function WifiRoomSensor(log, config) {
 
 	this.services.push(this.service);
 	this.services.push(this.serviceInfo);
+	
+	this.discover();
 }
 
 WifiRoomSensor.prototype = {
 	discover: function () {
+		this.updateRoomSensorState.bind(this);
+		
 		setInterval(this.updateRoomSensorState.bind(this), this.interval);
 	},
 	getRoomSensorState: function (callback) {
