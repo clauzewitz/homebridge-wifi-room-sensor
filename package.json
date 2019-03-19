@@ -1,0 +1,20 @@
+{
+  "name": "homebridge-wifi-room-sensor",
+  "version": "1.0.0",
+  "description": "WiFi Room Sensor plugin for Homebridge.",
+  "license": "MIT",
+  "keywords": [
+    "homebridge-plugin",
+    "wifi",
+    "room sensor"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clauzewitz/homebridge-wifi-room-sensor"
+  },
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.4.0",
+    "node-nmap": ">=4.0.0"
+  }
+}

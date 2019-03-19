@@ -1,0 +1,16 @@
+{
+	"bridge": {
+		"name": "Homebridge",
+		"username": "CC:22:3D:E3:CE:30",
+		"port": 51826,
+		"pin": "123-45-568"
+	},
+
+	"accessories": [
+		{
+			"accessory": "MiRobotVacuum",
+			"name": "WiFi Room Sensor",
+			"mac": "6f7a65786550386b755a6b526666744d"
+		}
+	]
+}
