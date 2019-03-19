@@ -14,6 +14,7 @@ function WifiRoomSensor(log, config) {
 	this.name = config.name || 'WiFi Room Sensor';
 	this.ip = config.ip;
 	this.mac = config.mac;
+	this.interval = Number(config.interval) || 60000;
 
 	if (!this.ip) {
 		throw new Error('Your must provide IP address of the room sensor.');
@@ -41,6 +42,9 @@ function WifiRoomSensor(log, config) {
 }
 
 WifiRoomSensor.prototype = {
+	discover: function () {
+		setInterval(this.updateState.bind(this), this.interval);
+	},
 	getRoomSensorState: function (callback) {
 		let that = this;
 		
