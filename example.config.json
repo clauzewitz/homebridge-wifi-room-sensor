@@ -8,7 +8,7 @@
 
 	"accessories": [
 		{
-			"accessory": "MiRobotVacuum",
+			"accessory": "WiFiRoomSensor",
 			"name": "WiFi Room Sensor",
 			"mac": "6f7a65786550386b755a6b526666744d"
 		}
