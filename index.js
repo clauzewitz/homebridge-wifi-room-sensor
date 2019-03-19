@@ -15,6 +15,7 @@ function WifiRoomSensor(log, config) {
 	this.ip = config.ip;
 	this.mac = config.mac;
 	this.interval = Number(config.interval) || 60000;
+	this.sensorState = null;
 
 	if (!this.ip) {
 		throw new Error('Your must provide IP address of the room sensor.');
@@ -43,20 +44,22 @@ function WifiRoomSensor(log, config) {
 
 WifiRoomSensor.prototype = {
 	discover: function () {
-		setInterval(this.updateState.bind(this), this.interval);
+		setInterval(this.updateRoomSensorState.bind(this), this.interval);
 	},
 	getRoomSensorState: function (callback) {
+		callback(null, this.sensorState);
+	},
+	updateRoomSensorState: function () {
 		let that = this;
-		
 		exec('nmap -sP -n 192.168.0.0/24', function (error, stdout, stderr) {
 			if (error !== undefined && error !== null) {
 				callback(error);
 			} else {
-				callback(null, stdout.includes(that.ip));
+				that.sensorState = stdout.includes(that.ip);
+				that.service.getCharacteristic(Characteristic.MotionDetected).updateValue(that.sensorState);
 			}
 		});
 	},
-
 	identify: function (callback) {
 		callback();
 	},
