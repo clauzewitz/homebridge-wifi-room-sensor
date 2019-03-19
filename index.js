@@ -1,11 +1,9 @@
 const exec = require('child_process').exec;
-const util = require('util');
-let Service, Characteristic, UUIDGen;
+let Service, Characteristic;
 
 module.exports = function (homebridge) {
 	Service = homebridge.hap.Service;
 	Characteristic = homebridge.hap.Characteristic;
-	UUIDGen = homebridge.hap.uuid;
 
 	homebridge.registerAccessory('homebridge-wifi-room-sensor', 'WiFiRoomSensor', WifiRoomSensor);
 }
@@ -27,23 +25,7 @@ function WifiRoomSensor(log, config) {
 		throw new Error('Your must provide MAC address of the room sensor.');
 	}
 
-	let wifiRoomSensorUUID = UUIDGen.generate('WiFi Room Sensor: ' + this.mac);
-	Service.WifiRoomSensor = function (displayName, subType) {
-		Characteristic.call(this, displayName, wifiRoomSensorUUID, subType);
-		// Required Characteristics
-		this.addCharacteristic(Characteristic.MotionDetected);
-
-		// Optional Characteristics
-		this.addOptionalCharacteristic(Characteristic.StatusActive);
-		this.addOptionalCharacteristic(Characteristic.StatusFault);
-		this.addOptionalCharacteristic(Characteristic.StatusTampered);
-		this.addOptionalCharacteristic(Characteristic.StatusLowBattery);
-		this.addOptionalCharacteristic(Characteristic.Name);
-	};
-	util.inherits(Service.WifiRoomSensor, Service);
-	Service.WifiRoomSensor.UUID = wifiRoomSensorUUID;
-	
-	this.service = new Service.WifiRoomSensor(this.name + ' Sensor');
+	this.service = new Service.MotionSensor(this.name);
 
 	this.service
 		.getCharacteristic(Characteristic.MotionDetected)
