@@ -1,6 +1,6 @@
 {
   "name": "homebridge-wifi-room-sensor",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "WiFi Room Sensor plugin for Homebridge.",
   "license": "MIT",
   "keywords": [
