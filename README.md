@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/homebridge-wifi-room-sensor.svg)](https://badge.fury.io/js/homebridge-wifi-room-sensor)
+
 # homebridge-wifi-room-sensor
 
 This is WiFi Room Sensor plugin for [Homebridge](https://github.com/nfarina/homebridge). 
