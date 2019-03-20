@@ -59,7 +59,7 @@ WifiRoomSensor.prototype = {
 		let that = this;
 		exec('nmap -sP -n 192.168.0.0/24', function (error, stdout, stderr) {
 			if (error !== undefined && error !== null) {
-				callback(error);
+				that.log(error);
 			} else {
 				that.sensorState = stdout.includes(that.ip);
 				that.service.getCharacteristic(Characteristic.MotionDetected).updateValue(that.sensorState);
