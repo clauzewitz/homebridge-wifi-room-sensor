@@ -28,10 +28,10 @@ function WifiRoomSensor(log, config) {
 		throw new Error('Your must provide MAC address of the room sensor.');
 	}
 
-	this.service = new Service.MotionSensor(this.name);
+	this.service = new Service.OccupancySensor(this.name);
 
 	this.service
-		.getCharacteristic(Characteristic.MotionDetected)
+		.getCharacteristic(Characteristic.OccupancyDetected)
 		.on('get', this.getRoomSensorState.bind(this));
 
 	this.serviceInfo = new Service.AccessoryInformation();
@@ -62,7 +62,7 @@ WifiRoomSensor.prototype = {
 				that.log(error);
 			} else {
 				that.sensorState = stdout.includes(that.ip);
-				that.service.getCharacteristic(Characteristic.MotionDetected).updateValue(that.sensorState);
+				that.service.getCharacteristic(Characteristic.OccupancyDetected).updateValue(that.sensorState);
 			}
 		});
 	},
