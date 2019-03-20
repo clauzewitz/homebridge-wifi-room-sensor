@@ -1,4 +1,7 @@
+'use strict';
+
 const exec = require('child_process').exec;
+const version = require('./package.json').version;
 let Service, Characteristic;
 
 module.exports = function (homebridge) {
@@ -36,7 +39,8 @@ function WifiRoomSensor(log, config) {
 	this.serviceInfo
 		.setCharacteristic(Characteristic.Manufacturer, 'Clauzewitz')
 		.setCharacteristic(Characteristic.Model, 'WiFi Room Sensor')
-		.setCharacteristic(Characteristic.SerialNumber, this.mac.toUpperCase());
+		.setCharacteristic(Characteristic.SerialNumber, this.mac.toUpperCase())
+		.setCharacteristic(Characteristic.FirmwareRevision, version);
 
 	this.services.push(this.service);
 	this.services.push(this.serviceInfo);
