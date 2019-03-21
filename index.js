@@ -2,7 +2,9 @@
 
 const exec = require('child_process').exec;
 const version = require('./package.json').version;
-let Service, Characteristic;
+let Service;
+let Characteristic;
+let logger;
 
 module.exports = function (homebridge) {
 	Service = homebridge.hap.Service;
@@ -12,13 +14,14 @@ module.exports = function (homebridge) {
 }
 
 function WifiRoomSensor(log, config) {
+	logger = log;
+
 	this.services = [];
-	this.log = log;
 	this.name = config.name || 'WiFi Room Sensor';
 	this.ip = config.ip;
 	this.mac = config.mac;
 	this.interval = Number(config.interval) || 60000;
-	this.sensorState = null;
+	this.sensorState = undefined;
 
 	if (!this.ip) {
 		throw new Error('Your must provide IP address of the room sensor.');
@@ -56,10 +59,11 @@ WifiRoomSensor.prototype = {
 		callback(null, this.sensorState);
 	},
 	updateRoomSensorState: function () {
-		let that = this;
+		const that = this;
+		
 		exec('nmap -sP -n 192.168.0.0/24', function (error, stdout, stderr) {
-			if (error !== undefined && error !== null) {
-				that.log(error);
+			if (error) {
+				logger(error);
 			} else {
 				that.sensorState = stdout.includes(that.ip);
 				that.service.getCharacteristic(Characteristic.OccupancyDetected).updateValue(that.sensorState);

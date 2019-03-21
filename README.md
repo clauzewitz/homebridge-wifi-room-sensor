@@ -35,8 +35,9 @@ This is WiFi Room Sensor plugin for [Homebridge](https://github.com/nfarina/home
         {
           "accessory": "WiFiRoomSensor",
           "name": "WiFi Room Sensor",
-          "ip": "TOKEN_FROM_STEP_3"
-          "mac": "TOKEN_FROM_STEP_3"
+          "ip": "TOKEN_FROM_STEP_3",
+          "mac": "TOKEN_FROM_STEP_3",
+          "interval": 5000
         }
       ]
     ```
@@ -48,6 +49,3 @@ This is WiFi Room Sensor plugin for [Homebridge](https://github.com/nfarina/home
 ### License
 
 See the [LICENSE](https://github.com/clauzewitz/homebridge-wifi-room-sensor/blob/master/LICENSE.md) file for license rights and limitations (MIT).
-
-
-
