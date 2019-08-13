@@ -46,6 +46,5 @@ This is WiFi Room Sensor plugin for [Homebridge](https://github.com/nfarina/home
 
 
 
-### License
-
-See the [LICENSE](https://github.com/clauzewitz/homebridge-wifi-room-sensor/blob/master/LICENSE.md) file for license rights and limitations (MIT).
+# License
+MIT License
