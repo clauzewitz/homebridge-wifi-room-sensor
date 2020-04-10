@@ -19,16 +19,13 @@ function WifiRoomSensor(log, config) {
 	this.services = [];
 	this.name = config.name || 'WiFi Room Sensor';
 	this.ip = config.ip;
-	this.mac = config.mac;
-	this.interval = Number(config.interval) || 60000;
+	this.interval = Number(config.interval) || 60;
+	this.hysteresis = Number(config.hysteresis) || 5;
 	this.sensorState = undefined;
+	this.lastSeen = 0;
 
 	if (!this.ip) {
 		throw new Error('Your must provide IP address of the room sensor.');
-	}
-
-	if (!this.mac) {
-		throw new Error('Your must provide MAC address of the room sensor.');
 	}
 
 	this.service = new Service.OccupancySensor(this.name);
@@ -42,7 +39,7 @@ function WifiRoomSensor(log, config) {
 	this.serviceInfo
 		.setCharacteristic(Characteristic.Manufacturer, 'Clauzewitz')
 		.setCharacteristic(Characteristic.Model, 'WiFi Room Sensor')
-		.setCharacteristic(Characteristic.SerialNumber, this.mac.toUpperCase())
+		.setCharacteristic(Characteristic.SerialNumber, this.ip)
 		.setCharacteristic(Characteristic.FirmwareRevision, version);
 
 	this.services.push(this.service);
@@ -53,7 +50,7 @@ function WifiRoomSensor(log, config) {
 
 WifiRoomSensor.prototype = {
 	discover: function () {
-		setInterval(this.updateRoomSensorState.bind(this), this.interval);
+		setInterval(this.updateRoomSensorState.bind(this), this.interval * 1000);
 	},
 	getRoomSensorState: function (callback) {
 		callback(null, this.sensorState);
@@ -61,11 +58,19 @@ WifiRoomSensor.prototype = {
 	updateRoomSensorState: function () {
 		const that = this;
 		
-		exec('nmap -sP -n 192.168.0.0/24', function (error, stdout, stderr) {
+		exec('bash -c "if ping ' + this.ip + ' -c 1 -w ' + parseInt(this.interval / 2) + ' &> /dev/null; then echo online; else echo offline; fi"', function (error, stdout, stderr) {
 			if (error) {
 				logger(error);
 			} else {
-				that.sensorState = stdout.includes(that.ip);
+				logger(that.ip + ' is ' + stdout);
+				if (stdout.includes('online')) {
+					that.lastSeen = Date.now();
+					that.sensorState = true;
+				} else if (Date.now() - that.lastSeen < that.hysteresis * 60000) {
+					that.sensorState = true;
+				} else {
+					that.sensorState = false;
+				}
 				that.service.getCharacteristic(Characteristic.OccupancyDetected).updateValue(that.sensorState);
 			}
 		});
