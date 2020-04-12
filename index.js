@@ -19,8 +19,8 @@ function WifiRoomSensor(log, config) {
 	this.services = [];
 	this.name = config.name || 'WiFi Room Sensor';
 	this.ip = config.ip;
-	this.interval = Number(config.interval) || 60;
-	this.hysteresis = Number(config.hysteresis) || 5;
+	this.interval = Number(config.interval) || 30;
+	this.hysteresis = Number(config.hysteresis) || 10;
 	this.sensorState = undefined;
 	this.lastSeen = 0;
 

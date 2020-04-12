@@ -26,12 +26,13 @@ This is WiFi Room Sensor plugin for [Homebridge](https://github.com/nfarina/home
         {
           "accessory": "WiFiRoomSensor",
           "name": "WiFi Room Sensor",
-          "ip": "TOKEN_FROM_STEP_3",
+          "ip": "TOKEN_FROM_STEP_2",
           "interval": 30,
-          "hysteresis": 5
+          "hysteresis": 10
         }
       ]
     ```
+    Interval is measured in seconds and hysteresis is measured in minutes.
 
 4. Restart Homebridge, and your WiFi Room Sensor will be added to Home app.
 
